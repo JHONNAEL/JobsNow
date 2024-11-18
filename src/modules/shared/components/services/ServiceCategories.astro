@@ -3,23 +3,48 @@ import { actions } from 'astro:actions'
 import ServiceCategoryCard from './ServiceCategoryCard.astro'
 import Title from '@/modules/shared/components/ui/Title.astro'
 
-const { data: serviceCategoriesData, error: serviceCategoriesError } = await actions.findAllServiceCategories()
+// Recupera la información de usuarios desde la base de datos
+const { data: usersData, error: usersError } = await actions.findAllUsers()
 
-if ( serviceCategoriesError ) return Astro.redirect( '/404' )
+// Redirige a una página 404 si ocurre algún error
+if (usersError) return Astro.redirect('/404')
 
-const { serviceCategories } = serviceCategoriesData
+// Extrae la lista de usuarios
+const { users } = usersData
 ---
 
+<!-- Contenedor principal -->
+<div class="px-4 py-8 w-full flex flex-col items-center gap-8 bg-blue-50">
 
-<div class="px-4 py-4 w-full flex flex-col items-center gap-8">
+  <!-- Barra de búsqueda -->
+  <div class="bg-green-50 w-full max-w-4xl p-4 rounded-lg shadow-md flex flex-col sm:flex-row items-center gap-4">
+    <input
+      type="text"
+      placeholder="Puesto, empresa o palabra clave"
+      class="flex-1 py-2 px-4 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-700"
+    />
+    <select
+      class="py-2 px-4 rounded-lg border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-700"
+    >
+      <option value="Toda España">La Paz</option>
+      <!-- Agrega más opciones aquí -->
+    </select>
+    <button
+      class="bg-green-500 text-white font-medium py-2 px-6 rounded-lg hover:bg-orange-600 transition"
+    >
+      Buscar
+    </button>
+  </div>
 
-  <Title> nuestros servicios 👨‍🔧 </Title>
+  <!-- Título -->
+  <Title> Encuentra el perfil de los mejores trabajadores </Title>
 
+  <!-- Tarjetas de usuarios -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     {
-      serviceCategories.filter( s => s.status ).map( ( serviceCategory ) => (
-        <ServiceCategoryCard category={ serviceCategory } />
-      ) )
+      users.map((user) => (
+        <ServiceCategoryCard category={user} />
+      ))
     }
   </div>
 </div>

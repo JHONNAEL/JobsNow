@@ -1,0 +1,25 @@
+---
+interface Props {
+  name: string;
+  lastName: string;
+  email: string;
+  avatar?: string;
+}
+
+const { name, lastName, email, avatar } = Astro.props as Props;
+---
+
+<section class="bg-white shadow-md rounded-lg p-6 w-full max-w-3xl">
+  <div class="flex flex-col items-center">
+    <!-- Imagen del Perfil -->
+    <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-green-500 mb-4">
+      <img src={avatar || '/avatar.svg'} alt={`${name} ${lastName}`} />
+    </div>
+
+    <!-- Información Personal -->
+    <h1 class="text-2xl font-semibold text-gray-800">
+      {name} {lastName}
+    </h1>
+    <p class="text-gray-600 text-sm">{email}</p>
+  </div>
+</section>

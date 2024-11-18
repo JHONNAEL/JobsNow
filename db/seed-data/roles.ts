@@ -1,6 +1,7 @@
-
 export const seedRoles = [
+
   { id: 'admin', name: 'Administrador' },
   { id: 'worker', name: 'Trabajador' },
-  { id: 'client', name: 'Cliente' },
+  { id: 'client', name: 'Cliente' },  
+
 ]

@@ -26,6 +26,33 @@ export const seedUsers = [
     password: bcryptjs.hashSync( '123456', 10 ),
     roleId: 'client',
   },
+
+  
+    // Nuevos usuarios
+  {
+    id: UUID(),
+    name: 'Juan',
+    lastName: 'Perez',
+    email: 'juan@jobsnow.com',
+    password: bcryptjs.hashSync('123456', 10),
+    roleId: 'worker', 
+  },
+  {
+    id: UUID(),
+    name: 'Carlos',
+    lastName: 'Lopez',
+    email: 'carlos@jobsnow.com',
+    password: bcryptjs.hashSync('soporte123', 10),
+    roleId: 'worker', 
+  },
+  {
+    id: UUID(),
+    name: 'Rock',
+    lastName: 'Garcia',
+    email: 'rock@jobsnow.com',
+    password: bcryptjs.hashSync('freelancer123', 10),
+    roleId: 'worker',
+  },
 ]
 
 export const seedWorkerProfiles = [

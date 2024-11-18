@@ -43,14 +43,14 @@ const navItems = [
 const currentPath = Astro.url.pathname
 ---
 
-<nav class="bg-teal-600 text-white shadow-lg">
+<nav class="bg-white-800 text-black shadow-lg">
   <div class="mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <div class="flex items-center">
         <a href="/" class="flex-shrink-0">
           <span class="font-bold text-xl flex items-center gap-2">
-            <Icon name="mdi:briefcase-outline" size={ 30 } class="mr-2" />
-            Jobs Now 🚀
+            <img src="../../../../../public/logo.jpg" width="90" height="90" class="mr-2" />
+            Jobs Now
           </span>
         </a>
         <div class="hidden lg:block">
@@ -58,7 +58,7 @@ const currentPath = Astro.url.pathname
             { navItems.map( ( item ) => (
             <a
               href={ item.href }
-              class={`px-3 py-2 rounded-md font-medium flex items-center gap-2 ${ ( currentPath === item.href ) ? 'bg-teal-700 text-white' : 'text-teal-100 hover:bg-teal-500 hover:text-white' }` }
+              class={`px-3 py-2 rounded-md font-medium flex items-center gap-2 ${ ( currentPath === item.href ) ? 'bg-white-700 text-black' : 'text-black-100 hover:bg-white-500 hover:text-green-500' }` }
             >
               <Icon name={ `${ item.icon }` } size={ 24 } />
               { item.name }
@@ -73,7 +73,7 @@ const currentPath = Astro.url.pathname
             { wallet.stars } ⭐
           </span>
           <button
-            class="bg-teal-600 p-1 rounded-full text-teal-100 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-teal-600 focus:ring-white"
+            class="bg-black-600 p-1 rounded-full text-white-100 hover:text-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-teal-600 focus:ring-white"
             id="toggle-button-open-menu"
           >
             <span class="sr-only">Ver notificaciones</span>

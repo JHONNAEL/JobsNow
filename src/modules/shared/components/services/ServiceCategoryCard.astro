@@ -1,33 +1,39 @@
 ---
-import { Icon } from 'astro-icon/components'
-
 interface Props {
   category: {
-    name:        string
-    description: string
-    icon:        string
-    id:          string
-  }
+    name: string;
+    lastName: string;
+    email: string;
+    id: string;
+  };
 }
 
-const { category } = Astro.props
-const { id, name, description, icon } = category
+// Extraemos la información del usuario
+const { category } = Astro.props;
+const { id, name, lastName, email } = category;
 ---
 
-<article class="bg-white rounded-lg shadow-2xl hover:shadow-lg transition-shadow duration-300 p-6">
-  <a href={ `/services/${ id }` }>
-    <section class="flex items-center mb-4">
-      <div class=" rounded-full p-2 text-slate-800">
-        <Icon
-          name={ icon }
-          size={ 40 }
-          class="text-[#243642]"
-        />
+<article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4">
+  <a href={`/profile/${id}`}>
+    <!-- Imagen circular y título -->
+    <div class="flex flex-col items-center gap-4">
+      <div class="w-20 h-20 rounded-full overflow-hidden border-4 border-green-500">
+        <!-- Placeholder para avatar -->
+        <img src="/avatar.svg" alt={`${name} ${lastName}`} />
       </div>
-      <h3 class="text-xl font-semibold"> { name } </h3>
-    </section>
-    <section>
-      <p class="text-gray-600"> { description } </p>
-    </section>
+      <h3 class="text-center text-lg font-semibold text-gray-800">
+        {name} {lastName}
+      </h3>
+    </div>
+
+    <!-- Email del usuario -->
+    <p class="text-gray-600 text-sm text-center mt-2">{email}</p>
+
+    <!-- Botón Ver más -->
+    <div class="mt-4 flex justify-center">
+      <button class="text-green-600 text-sm font-medium hover:text-blue-800 transition">
+        Ver perfil
+      </button>
+    </div>
   </a>
 </article>
