@@ -84,147 +84,150 @@ const inputs = [
 
 <WorkersLayout>
   <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 sm:p-6 md:p-8">
-    <form id="profile-edit-form">
-      <input type="hidden" name="id" value={ user?.id } />
-      <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden">
-        <div class="p-6 sm:p-8">
-          <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-center text-gray-800">
-            <Icon name="mdi:account-circle" class="text-blue-500 mr-2" size={ 30 } />Mi Perfil 😎
-          </h1>
-
-          <div class="mb-6 text-center">
-            <img
-              src={ ( user?.avatar ) ? user.avatar : '/avatar.svg' }
-              alt="Foto de perfil"
-              class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-blue-500 shadow-lg bg-white"
-            />
+    <div class="bg-gray-100 min-h-screen py-10">
+      <!-- Profile Header -->
+      <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="relative h-48 bg-gray-200">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png" alt="background image" class="h-full w-full object-cover opacity-90">
           </div>
-
-          {
-          inputs.map( input => () => (
-          ( input.type === 'select' ) ? (
-          <div class="mb-4 p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center">
-                <Icon name="mdi:image" class="text-blue-500 text-xl mr-2" />
-                <span class="font-semibold text-gray-700"> { input.label }:</span>
+        </div>
+        
+        <!-- Profile Info -->
+        <div class="p-6 text-center">
+          <img class="w-24 h-24 rounded-full mx-auto border-4 border-white -mt-12" src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png" alt="Profile picture">
+          <h2 class="text-xl font-semibold mt-4">Dmitry Kargaev</h2>
+          <p class="text-gray-600">Freelance UX/UI Designer</p>
+          <p class="text-sm text-gray-400 mt-2">Saint Petersburg, Russian Federation</p>
+          <button id="contact-info-button" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Contact Info</button>
+          <p class="mt-2 text-gray-500 text-sm">1,043 connections</p>
+        </div>
+        
+        <!-- About Section -->
+        <div class="px-6 py-4">
+          <h3 class="text-lg font-semibold">About</h3>
+          <p class="text-gray-700 mt-2">
+            I’m more experienced in eCommerce web projects and mobile banking apps, but also like to work with creative projects, such as landing pages or unusual corporate websites.
+          </p>
+          <button class="mt-2 text-blue-500 text-sm hover:underline">See More</button>
+        </div>
+    
+        <!-- Projects Section -->
+        <div class="px-6 py-4">
+          <h3 class="text-lg font-semibold">Projects <span class="text-gray-500 text-sm">(3 of 12)</span></h3>
+          <div class="grid grid-cols-3 gap-4 mt-4">
+            <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+              <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png" alt="Project 1" class="w-full h-32 object-cover rounded-lg">
+              <h4 class="text-sm font-medium mt-2">Zara redesign concept</h4>
+              <p class="text-xs text-gray-500">UX/UI Design, 10/2019</p>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+              <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png" alt="Project 2" class="w-full h-32 object-cover rounded-lg">
+              <h4 class="text-sm font-medium mt-2">SCHTON event brand identity</h4>
+              <p class="text-xs text-gray-500">Graphic Design, 03/2019</p>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+              <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png" alt="Project 3" class="w-full h-32 object-cover rounded-lg">
+              <h4 class="text-sm font-medium mt-2">Drozd, Brand identity, 2016</h4>
+              <p class="text-xs text-gray-500">Graphic Design, 05/2016</p>
+            </div>
+          </div>
+          <button class="mt-4 text-blue-500 text-sm hover:underline">Show All (12)</button>
+        </div>
+    
+        <!-- Skills & Endorsements Section -->
+        <div class="px-6 py-4">
+          <h3 class="text-lg font-semibold">Skills & Endorsements</h3>
+          <div class="flex gap-4 mt-4">
+            <div class="bg-gray-50 p-4 rounded-lg shadow-sm flex-1 text-center">
+              <h4 class="text-sm font-semibold">User Experience (UX)</h4>
+              <p class="text-xs text-gray-500">6 endorsements</p>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg shadow-sm flex-1 text-center">
+              <h4 class="text-sm font-semibold">User Interface (UI)</h4>
+              <p class="text-xs text-gray-500">7 endorsements</p>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg shadow-sm flex-1 text-center">
+              <h4 class="text-sm font-semibold">Brand Identity</h4>
+              <p class="text-xs text-gray-500">5 endorsements</p>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Experience Section -->
+        <div class="px-6 py-4">
+          <h3 class="text-lg font-semibold">Experience</h3>
+          <div class="mt-4 space-y-4">
+            <div class="flex gap-4">
+              <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png" alt="Freelance" class="w-8 h-8 rounded-full">
+              <div>
+                <h4 class="text-sm font-medium">Freelance UX/UI Designer</h4>
+                <p class="text-xs text-gray-500">Self Employed, 2016 - Present (3 yrs 6 mos)</p>
+                <p class="text-xs text-gray-500">Working on various projects as freelancer...</p>
               </div>
-              <button
-                id={ `edit-${ input.id }-button` }
-                class="text-blue-500 hover:text-blue-700 transition-colors edit-button"
-                data-id={ input.id }
-                type="button"
-              >
-                <Icon name="mdi:pencil" size={ 24 } />
-              </button>
             </div>
-            <div
-              class="mt-2 items-center hidden w-full gap-2"
-              id={ `${ input.id }-field` }
-            >
-              <select
-                name={ input.id }
-                class="w-full flex-grow p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Selecciona una opción</option>
-                {
-                  input.options?.map( option => () => (
-                  <option
-                    value={ option.value }
-                    selected={ ( input.value === option.value ) ? 'selected' : '' }
-                  >
-                    { option.label }
-                  </option>
-                  ) )
-                }
-              </select>
-              <button
-                id={ `close-${ input.id }-button` }
-                class="ml-2 text-red-500 hover:text-red-700 transition-colors close-button"
-                type="button"
-                data-original={ input.value }
-              >
-                <Icon name="mdi:close" size={ 24 } />
-              </button>
-            </div>
-            <p
-              class="mt-1 text-gray-600 text-start"
-              id={ `${ input.id }-value` }
-            >
-              {
-              ( input.value ) ? (
-                input.value
-              ) : (
-              <span class="text-red-500 flex items-center gap-2">{ input.noData } <Icon name="mdi:alert-circle" class="text-red-500" /></span>
-              )
-              }
-            </p>
-          </div>
-          ) : (
-          <div class="mb-4 p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center">
-                <Icon name="mdi:image" class="text-blue-500 text-xl mr-2" />
-                <span class="font-semibold text-gray-700"> { input.label }:</span>
+            <div class="flex gap-4">
+              <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png" alt="Upwork" class="w-8 h-8 rounded-full">
+              <div>
+                <h4 class="text-sm font-medium">UX/UI Designer</h4>
+                <p class="text-xs text-gray-500">Upwork, Jan 2016 - Present (3 yrs)</p>
+                <p class="text-xs text-gray-500">New experience with Upwork system...</p>
               </div>
-              <button
-                id={ `edit-${ input.id }-button` }
-                class="text-blue-500 hover:text-blue-700 transition-colors edit-button"
-                data-id={ input.id }
-                type="button"
-              >
-                <Icon name="mdi:pencil" size={ 24 } />
-              </button>
             </div>
-            <div
-              class="mt-2 items-center hidden w-full gap-2"
-              id={ `${ input.id }-field` }
-            >
-              <input
-                type={ input.type as any }
-                name={ input.id }
-                class="w-full flex-grow p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={ input.value }
-              />
-              <button
-                id={ `close-${ input.id }-button` }
-                class="ml-2 text-red-500 hover:text-red-700 transition-colors close-button"
-                type="button"
-                data-original={ input.value }
-              >
-                <Icon name="mdi:close" size={ 24 } />
-              </button>
-            </div>
-            <p
-              class="mt-1 text-gray-600 text-start"
-              id={ `${ input.id }-value` }
-            >
-              {
-              ( input.value ) ? (
-                input.value
-              ) : (
-              <span class="text-red-500 flex items-center gap-2">{ input.noData } <Icon name="mdi:alert-circle" class="text-red-500" /></span>
-              )
-              }
-            </p>
           </div>
-          )
-          ) )
-          }
-
-          <div class="mt-6 text-center hidden bottom-12 right-10" id="save-field">
-            <button
-              id="save-button"
-              class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors shadow-lg hover:shadow-xl flex items-center gap-2"
-              type="submit"
-            >
-              <Icon name="mdi:content-save" class="mr-2" />Guardar Cambios
-            </button>
-          </div>
-
         </div>
       </div>
+    </div>
+    <form id="profile-edit-form" class="hidden bg-white rounded-xl shadow-2xl max-w-3xl mx-auto p-6 sm:p-8 overflow-hidden">
+      <input type="hidden" name="id" value={user?.id} />
+      <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-center text-gray-800">
+        <Icon name="mdi:account-circle" class="text-blue-500 mr-2" size={30} />Mi Perfil 😎
+      </h1>
+      
+      <div class="mb-6 text-center">
+        <img src={(user?.avatar) ? user.avatar : '/avatar.svg'} alt="Foto de perfil" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-blue-500 shadow-lg bg-white" />
+      </div>
+
+      {inputs.map(input => (
+        <div key={input.id} class="mb-4 p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <Icon name={input.icon} class="text-blue-500 text-xl mr-2" />
+              <span class="font-semibold text-gray-700">{input.label}:</span>
+            </div>
+            <button
+              id={`edit-${input.id}-button`}
+              class="text-blue-500 hover:text-blue-700 transition-colors edit-button"
+              data-id={input.id}
+              type="button"
+            >
+              <Icon name="mdi:pencil" size={24} />
+            </button>
+          </div>
+          <div class="mt-2 items-center hidden w-full gap-2" id={`${input.id}-field`}>
+            <input type={input.type} name={input.id} class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value={input.value} />
+            <button
+              id={`close-${input.id}-button`}
+              class="ml-2 text-red-500 hover:text-red-700 transition-colors close-button"
+              type="button"
+              data-original={input.value}
+            >
+              <Icon name="mdi:close" size={24} />
+            </button>
+          </div>
+          <p class="mt-1 text-gray-600" id={`${input.id}-value`}>
+            {input.value ? input.value : <span class="text-red-500 flex items-center gap-2">{input.noData} <Icon name="mdi:alert-circle" class="text-red-500" /></span>}
+          </p>
+        </div>
+      ))}
+
+      <div class="mt-6 text-center" id="save-field">
+        <button class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors shadow-lg hover:shadow-xl" type="submit">
+          <Icon name="mdi:content-save" size={24} class="mr-2" />Guardar Cambios
+        </button>
+      </div>
     </form>
+    
 
     <div class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4 shadow-inner">
       <h3 class="text-lg font-semibold mb-2 text-blue-700 flex items-center gap-2">
@@ -254,7 +257,13 @@ import Swal from 'sweetalert2'
 const editButtons = document.querySelectorAll( '.edit-button' ) as NodeListOf<HTMLButtonElement>
 const closeButtons = document.querySelectorAll( '.close-button' ) as NodeListOf<HTMLButtonElement>
 const saveField = document.getElementById( 'save-field' ) as HTMLElement
-const profileEditForm = document.getElementById( 'profile-edit-form' ) as HTMLFormElement
+const contactInfoButton = document.getElementById('contact-info-button')
+const profileEditForm = document.getElementById('profile-edit-form')
+
+contactInfoButton.addEventListener('click', () => {
+  profileEditForm.classList.toggle('hidden') // Muestra u oculta el formulario
+  profileEditForm.classList.toggle('fixed')  // Opcional: establece la posición del formulario
+})
 
 editButtons.forEach( button => {
   button.addEventListener( 'click', () => {
