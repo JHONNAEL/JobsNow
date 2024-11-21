@@ -1,0 +1,185 @@
+---
+import AuthLayout from '@/modules/auth/layouts/AuthLayout.astro'
+import { Icon } from 'astro-icon/components'
+import { getRandomCaptcha } from '@/utils'
+import 'sweetalert2/dist/sweetalert2.min.css'
+import { actions } from 'astro:actions'
+
+const { data, error } = await actions.findAllUsers()
+if ( !error ) {
+  const { users } = data
+  console.log( users )
+}
+
+const { audio: audioUrl, code: unhashedCode } = getRandomCaptcha()
+const code = btoa( unhashedCode )
+---
+
+<AuthLayout class="bg-gradient-to-br from-[#800020] via-red-500 to-orange-500 min-h-screen flex justify-center items-center font-sans">
+  <a
+    class="mb-4 px-4 py-2 text-white bg-slate-900 rounded hover:text-slate-800 hover:bg-white transition-colors flex items-center gap-2"
+    href="/"
+  >
+    <Icon name="mdi:home" size={ 24 } />Volver a Inicio
+  </a>
+  <div class="w-full flex flex-col gap-4 p-8 md:flex-row md:items-center md:justify-center md:py-20">
+    <div class="w-full flex flex-col items-center justify-center gap-4 md:p-8 md:w-1/2 md:max-w-[500px]">
+      <img
+        src="/logo.jpg"
+        alt="Jobs Now Logo"
+        class="w-full max-w-[200px] md:max-w-[400px] rounded-lg shadow-black shadow-2xl"
+        transition:name="logo-auth"
+      />
+    </div>
+
+    <div class="w-full flex flex-col items-center justify-center gap-12 md:p-8 border-l-2 border-l-white md:w-1/2 md:max-w-[500px]">
+      <div class="bg-white bg-opacity-80 backdrop-blur-lg p-8 rounded-lg shadow-[0_0_25px_12px_rgba(0,0,0,0.6)] w-full flex flex-col gap-8">
+        <div class="bg-red-600 w-16 h-16 rounded-full flex justify-center items-center mx-auto -mt-20 mb-5 shadow-md">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="white"
+            class="w-6 h-6"
+          >
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+          </svg>
+        </div>
+        <h2 class="text-center text-3xl font-bold text-slate-800"> Iniciar sesión </h2>
+        <form class="w-full flex flex-col gap-8" id="form-signin">
+          <div class="flex flex-col gap-4">
+            <label for="email" class="text-slate-800 text-sm font-bold"> Correo electrónico </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="email@example.com"
+              class="w-full p-2 mb-4 border border-gray-200 rounded bg-white bg-opacity-90 text-gray-800 focus:outline-none focus:ring-2 focus:ring-red-500"
+              required
+            />
+          </div>
+          <div class="flex flex-col gap-4">
+            <label for="password" class="text-slate-800 text-sm font-bold"> Contraseña </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Password"
+              class="w-full p-2 mb-4 border border-gray-200 rounded bg-white bg-opacity-90 text-gray-800 focus:outline-none focus:ring-2 focus:ring-red-500"
+            />
+          </div>
+
+          <div class="flex flex-col gap-4">
+            <label for="captcha" class="text-slate-800 text-sm font-bold"> Ingresa el código del CAPTCHA </label>
+              <audio id="captcha-audio" controls data-ref={ code } class="w-full">
+              <source src={ audioUrl } type="audio/mpeg" />
+              Tu navegador no soporta la reproducción de audio.
+            </audio>
+            <input
+              id="captcha"
+              name="captcha"
+              type="text"
+              placeholder="Código CAPTCHA"
+              class="w-full p-2 mb-4 border border-gray-200 rounded bg-white bg-opacity-90 text-gray-800 focus:outline-none focus:ring-2 focus:ring-red-500"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="w-full p-2 bg-red-600 text-white font-bold rounded cursor-pointer hover:bg-red-700 transition duration-300"
+            id="login-button"
+          >
+            Iniciar sesión
+          </button>
+        </form>
+
+        <p class="text-center text-sm text-slate-600">
+          ¿No tienes cuenta?
+          <a href="/auth/signup" class="text-blue-500 hover:underline">
+            Registrate
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</AuthLayout>
+
+<script>
+import Swal from 'sweetalert2'
+
+const { signIn } = await import( 'auth-astro/client' )
+
+const handlerPageLoadSignin = () => {
+  console.log( 'Page loaded' )
+  const form = document.querySelector( '#form-signin' ) as HTMLFormElement
+  const submitButton = document.querySelector( 'button' ) as HTMLButtonElement
+
+  const captchaAudio = document.querySelector( '#captcha-audio' ) as HTMLAudioElement
+  const captchaInput = document.querySelector( '#captcha' ) as HTMLInputElement
+
+  console.log({ captchaAudio, captchaInput, form, submitButton })
+
+  if ( !form || !submitButton || !captchaAudio || !captchaInput ) {
+    return
+  }
+
+  const encodedCode = captchaAudio.getAttribute( 'data-ref' ) as string
+  const decodedCode = atob( encodedCode.trim() )
+  console.log( decodedCode )
+
+  form.addEventListener( 'submit', async ( event ) => {
+
+    event.preventDefault()
+
+    submitButton.disabled = true
+
+    const formData = new FormData( form )
+
+    const userCaptcha = captchaInput.value.trim()
+    console.log({ userCaptcha })
+
+    if ( userCaptcha !== decodedCode ) {
+      console.log({ userCaptcha, decodedCode })
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de CAPTCHA',
+        text: 'El código CAPTCHA ingresado es incorrecto.',
+      })
+      submitButton.disabled = false
+      return
+    }
+
+    const response = await signIn( 'credentials', {
+      email: formData.get( 'email' ) as string,
+      password: formData.get( 'password' ) as string,
+      redirect: false
+    } )
+
+    if ( response ) {
+      const data = await response.json()
+      const urlParams = new URLSearchParams(response.url.split('?')[1]);
+      const errorCode = urlParams.get('error');
+      console.log({ errorCode, data })
+      const errorMessages : Record<string, string> = {
+        AccountDisabled: 'Tu cuenta ha sido deshabilitada, por favor contacta a soporte',
+        InvalidCredentials: 'Parece que el correo electrónico o la contraseña son incorrectos',
+        UserNotFound: 'Parece que el correo electrónico o la contraseña son incorrectos',
+      }
+
+      const errorMessage = errorMessages[ response.error ] || 'Ha ocurrido un error al iniciar sesion, por favor contacta con soporte si tus credenciales son correctas'
+
+      Swal.fire( {
+        icon: 'error',
+        title: 'Error en el Inicio de sesión',
+        text: errorMessage,
+      } )
+      submitButton.disabled = false
+      return
+    }
+    window.location.replace( '/' )
+  } )
+}
+
+document.addEventListener( 'astro:page-load', handlerPageLoadSignin )
+</script>

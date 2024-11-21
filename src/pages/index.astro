@@ -1,0 +1,25 @@
+---
+import { getSession } from 'auth-astro/server'
+
+import Layout from '@/modules/shared/layouts/Layout.astro'
+import PublicNavbar from '@/modules/public/components/ui/PublicNavbar.astro'
+import ClientNavbar from '@/modules/clients/components/ui/ClientsNavbar.astro'
+import WorkerProfileGrid from '@/modules/clients/components/cards/WorkerProfileGrid.astro'
+
+const session = await getSession( Astro.request )
+
+const { user } = session ?? {}
+---
+
+<Layout>
+  {
+    ( !user ) ? (
+      <PublicNavbar />
+    ) : (
+      <ClientNavbar user={ user } />
+    )
+  }
+  <div class="py-8 md:py-20">
+    <WorkerProfileGrid />
+  </div>
+</Layout>
