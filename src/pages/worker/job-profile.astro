@@ -9,17 +9,29 @@ const session = await getSession( Astro.request )
 const { user: sessionUser } = session ?? {}
 
 if ( !sessionUser ) return Astro.redirect( '/auth/signin' )
-const { data: userData, error: userError } = await actions.findOneUser({ id: sessionUser.id })
+
+//const { data: userData, error: userError } = await actions.findOneUser({ id: sessionUser.id })
+const { data: userData, error: userError } = await Astro.callAction( actions.findOneUser, { id: sessionUser.id } )
 
 if ( userError ) return Astro.redirect( '/auth/signin' )
 const { user } = userData
 
-const { data: workerProfileData, error: workerProfileError } = await actions.findOneWorkerProfileByUserId({ userId: user.id })
+//const { data: workerProfileData, error: workerProfileError } = await actions.findOneWorkerProfileByUserId({ userId: user.id })
+const { data: workerProfileData, error: workerProfileError } = await Astro.callAction( actions.findOneWorkerProfileByUserId, { userId: user.id } )
 if ( workerProfileError ) return Astro.redirect( '/auth/signin' )
 const { workerProfile } = workerProfileData
 
+interface IInput {
+  id: string
+  label: string
+  icon: string
+  value: string | null
+  type: string
+  noData: string
+  options?: { value: string, label: string }[]
+}
 
-const inputs = [
+const inputs : IInput[] = [
   {
     id: 'description',
     label: 'Descripción',

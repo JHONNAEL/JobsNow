@@ -6,9 +6,8 @@ import { getSession } from 'auth-astro/server'
 const session = await getSession( Astro.request )
 const { user } = session ?? {}
 if ( !user ) return Astro.redirect( '/auth/signin' )
-const { data: workerProfileData, error: workerProfileError } = await actions.findOneWorkerProfileByUserId({ userId: user.id })
-if ( workerProfileError ) return Astro.redirect( '/404' )
-const { workerProfile } = workerProfileData
+//const { data: workerProfileData, error: workerProfileError } = await actions.findOneWorkerProfileByUserId({ userId: user.id })
+//if ( workerProfileError ) return Astro.redirect( '/404' )
 
 interface Props {
   publicationId: string
@@ -16,11 +15,13 @@ interface Props {
 
 const { publicationId } = Astro.props
 
-const { data: serviceCategoriesData, error: serviceCategoriesError } = await actions.findAllServiceCategories()
+//const { data: serviceCategoriesData, error: serviceCategoriesError } = await actions.findAllServiceCategories()
+const { data: serviceCategoriesData, error: serviceCategoriesError } = await Astro.callAction( actions.findAllServiceCategories, {} )
 if ( serviceCategoriesError ) return Astro.redirect( '/404' )
 const { serviceCategories } = serviceCategoriesData
 
-const { data: publicationData, error: publicationError } = await actions.findOneService({ id: publicationId })
+//const { data: publicationData, error: publicationError } = await actions.findOneService({ id: publicationId })
+const { data: publicationData, error: publicationError } = await Astro.callAction( actions.findOneService, { id: publicationId } )
 if ( publicationError ) return Astro.redirect( '/404' )
 const { service: publication } = publicationData
 ---
@@ -57,7 +58,7 @@ const { service: publication } = publicationData
     <div>
       <label for="editImageUrl" class="block text-sm font-medium text-gray-700">URL de la imagen</label>
       <input
-        type="url"
+        type="text"
         id="editImageUrl"
         name="imageUrl"
         value={ publication.imageUrl }
@@ -74,7 +75,7 @@ const { service: publication } = publicationData
       >
         <option value="">Selecciona una categoría</option>
         {
-          serviceCategories.map( ( serviceCategory ) => (
+          serviceCategories.filter( sc => sc.status ).map( ( serviceCategory ) => (
         <option
           value={ serviceCategory.id }
           selected={ publication.categoryId === serviceCategory.id }
@@ -116,7 +117,7 @@ editPublicationForms.forEach( form => {
       } )
       return
     }
-    Swal.fire( {
+    await Swal.fire( {
       title: 'Publicación editada',
       text: 'La publicación ha sido editada exitosamente',
       icon: 'success',

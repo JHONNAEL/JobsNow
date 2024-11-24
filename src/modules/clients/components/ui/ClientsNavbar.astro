@@ -8,11 +8,13 @@ const session = await getSession( Astro.request )
 const { user: sessionUser } = session ?? {}
 
 if ( !sessionUser ) return Astro.redirect( '/auth/signin' )
-const { data: userData, error: userError } = await actions.findOneUser({ id: sessionUser.id })
+//const { data: userData, error: userError } = await actions.findOneUser({ id: sessionUser.id })
+const { data: userData, error: userError } = await Astro.callAction( actions.findOneUser, { id: sessionUser.id } )
 if ( userError ) return Astro.redirect( '/auth/signin' )
 const { user } = userData
 
-const { data: walletData, error: walletError } = await actions.findOneWalletByUserId({ userId: user.id })
+//const { data: walletData, error: walletError } = await actions.findOneWalletByUserId({ userId: user.id })
+const { data: walletData, error: walletError } = await Astro.callAction( actions.findOneWalletByUserId, { userId: user.id } )
 
 if ( walletError ) return Astro.redirect( '/404' )
 const { wallet } = walletData
@@ -22,11 +24,6 @@ const navItems = [
     name: 'Inicio',
     href: '/',
     icon: 'mdi:home'
-  },
-  {
-    name: 'Servicios',
-    href: '/services',
-    icon: 'mdi:bank-transfer'
   },
   {
     name: 'Billetera',
@@ -49,7 +46,11 @@ const currentPath = Astro.url.pathname
       <div class="flex items-center">
         <a href="/" class="flex-shrink-0">
           <span class="font-bold text-xl flex items-center gap-2">
-            <Icon name="mdi:briefcase-outline" size={ 30 } class="mr-2" />
+            <img
+              src="/logo.jpg"
+              alt="logo"
+              class="h-16"
+            />
             Jobs Now 🚀
           </span>
         </a>
@@ -68,7 +69,8 @@ const currentPath = Astro.url.pathname
         </div>
       </div>
       <div class="hidden lg:block">
-        <div class="ml-4 flex items-center lg:ml-6">
+        <div class="ml-4 flex items-center lg:ml-6 gap-2">
+          <span class="text-teal-100 font-bold"> Saldo: </span>
           <span>
             { wallet.stars } ⭐
           </span>
